@@ -9,12 +9,13 @@ It follows the standard 6 stage pipelines (Instruction fetch, instruction decode
 ## IITB-RISC Instruction Set Architecture: 
 This architecture uses condition code register which has two flags Carry flag ( C ) and Zero flag (Z). The IITB-RISC-23 is very simple, but it is general enough to solve complex problems. The architecture allows predicated instruction execution and multiple load and store execution. There are three machine code instruction formats (R, I, and J type) and a total of 25 instructions.
 
-Instructions:
-[EE309-Project-pipelined-RISC-IITB.pdf](https://github.com/agaparna2468/Pipelined-processor/files/11486282/EE309-Project-pipelined-RISC-IITB.pdf)
+## Instructions:
+![Instruction format](https://github.com/agaparna2468/Pipelined-processor/assets/98680990/44018b78-1dcf-465e-b1f4-ea9f3ed92fcf)
+[EE309-Project-pipelined-RISC-IITB.pdf](https://github.com/agaparna2468/Pipelined-processor/files/11486318/EE309-Project-pipelined-RISC-IITB.pdf)
 
-##Datapath
+## Datapath
 ![Datapath](https://github.com/agaparna2468/Pipelined-processor/assets/98680990/006f9a11-2890-4ec9-a4b7-e3ff73f6c2c9)
 
-##Project Report:
+## Project Report:
 [EE309 Project 2023 Report.pdf](https://github.com/agaparna2468/Pipelined-processor/files/11486258/EE309.Project.2023.Report.pdf)
 
