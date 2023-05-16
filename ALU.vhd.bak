@@ -1,0 +1,109 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity alu is
+port (ALU_A, ALU_B: in std_logic_vector(15 downto 0); 
+ALU_INST: in std_logic_vector(1 downto 0); 
+ALU_C: out std_logic_vector(15 downto 0); carry, zero:out std_logic);
+end entity;
+
+architecture alu_beh of alu is
+        function a	 A: in std_logic_vector(15 downto 0);
+        B: in std_logic_vector(15 downto 0))
+        return std_logic_vector is
+        variable sum : std_logic_vector(15 downto 0);
+        variable carry : std_logic_vector(15 downto 0);
+        begin
+        L1 : for i in 0 to 15 loop
+                    if i = 0 then 
+                        sum(i) := ((A(i) xor B(i)) xor '0');
+                            carry(i) := (A(i) and B(i));
+                            
+                    else 
+                        sum(i) := A(i) xor B(i) xor carry(i-1);
+                        carry(i) := (A(i) and B(i)) or  (carry(i-1) and ( A(i) or B(i) ));
+                    end if;
+                    end loop L1;
+        return carry(15) & sum;       
+        end add;
+--------------------------------------------------------------------------------------------------------------------------------------
+        function nandbit(A: in std_logic_vector(15 downto 0);
+        B: in std_logic_vector(15 downto 0))
+        return std_logic_vector is
+        variable nandr : std_logic_vector(15 downto 0);
+        begin
+        L1 : for i in 0 to 15 loop
+        nandr(i) := A(i) NAND B(i) ;
+        end loop L1;
+        return nandr;       
+        end nandbit;
+--------------------------------------------------------------------------------------------------------------------------------------
+        function sub(A: in std_logic_vector(15 downto 0);
+        B: in std_logic_vector(15 downto 0))
+        return std_logic_vector is
+        variable diff : std_logic_vector(15 downto 0):= (others=>'0');
+        variable carry : std_logic_vector(15 downto 0):= (others=>'0');
+        begin
+        L1: for i in 0 to 15 loop
+                if i=0 then
+                    diff(i)  := A(i) xor B(i);
+                    carry(i) := A(i) and (not B(i));
+                else
+                    diff(i)  := A(i) xor B(i) xor carry(i-1);
+                    carry(i) := ((not B(i)) and A(i)) or (A(i) and carry(i-1)) or ((not B(i)) and carry(i-1));
+        end if;
+        end loop L1;
+        return diff;
+        end sub;
+--------------------------------------------------------------------------------------------------------------------------------------
+signal x:  std_logic_vector(16 downto 0):="00000000000000000";
+begin
+
+alu_proc: process(ALU_INST, ALU_A, ALU_B, x )
+
+
+begin 
+
+    if (ALU_INST="00") then
+          x <= add(ALU_A, ALU_B);
+          ALU_C<= x(15 downto 0);
+          carry<=x(16);
+          if(x(15 downto 0) ="0000000000000000") then
+               zero<= '1';
+          else 
+               zero<='0';
+          end if;
+
+          
+    elsif(ALU_INST="01") then
+        ALU_C<=nandbit(ALU_A, ALU_B);
+        if(nandbit(ALU_A, ALU_B) ="0000000000000000") then
+               zero<= '1';
+          else 
+               zero<='0';
+        end if;
+        carry<='0';
+		  x<="00000000000000000";
+    
+    elsif(ALU_INST="10") then
+        ALU_C<=sub(ALU_A, ALU_B);
+        carry<='0';
+        if(sub(ALU_A, ALU_B) ="0000000000000000") then
+               zero<= '1';
+          else 
+               zero<='0';
+        end if;
+		  x<="00000000000000000";
+
+    else 
+    ALU_C<= "0000000000000000";
+    carry<= '0';
+    zero<= '0';
+		x<="00000000000000000";
+
+    end if;
+end process; 
+end alu_beh;    
+
+       

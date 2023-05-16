@@ -1,0 +1,104 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+library work;
+use work.Gates.all;
+
+entity datapath is
+
+port ();
+
+end entity datapath;
+
+architecture bhv of datapath is
+
+component oneshift is
+		port (inp :in std_logic_vector(15 downto 0); OneS: in std_logic; output: out std_logic_vector(15 downto 0));
+end component;
+
+component SignE9 is 
+	port (input1: in std_logic_vector(8 downto 0); se9: in std_logic; output: out std_logic_vector(15 downto 0));
+end component;
+
+component SignE6 is 
+	port (input1: in std_logic_vector(5 downto 0); se6: in std_logic; output: out std_logic_vector(15 downto 0));
+end component;
+
+component Memory_data is
+    port(clock, mem_rd, mem_wr: in std_logic; mem_add,mem_data: in std_logic_vector(15 downto 0);  mem_out: out std_logic_vector(15 downto 0) );
+end component;
+
+component alu1 is
+	port (ALU1_A, ALU1_B: in std_logic_vector(15 downto 0); ALU1_INST: in std_logic_vector(1 downto 0); ALU1_C: out std_logic_vector(15 downto 0); carry, zero:out std_logic);
+end component;
+
+component ff_16 is 
+		port(En,clock,reset:in std_logic; D1: in std_logic_vector(15 downto 0); Q:out std_logic_vector(15 downto 0));
+end entity ff_16;
+	
+component regfile is
+port(clk, reset,rg_wr: in std_logic; RF_A3, RF_A1, RF_A2: in std_logic_vector(2 downto 0);RF_D3: in std_logic_vector(15 downto 0); RF_D1, RF_D2: out std_logic_vector(15 downto 0));
+end component;
+
+component ff_1 is 
+		port(D1, En,clock,reset:in std_logic; Q:out std_logic);
+end component ff_1;
+
+component alu is
+port (ALU_A, ALU_B: in std_logic_vector(15 downto 0); ALU_INST: in std_logic_vector(1 downto 0); 
+ALU_C: out std_logic_vector(15 downto 0); carry, zero:out std_logic);
+end component;
+
+component ff_16 is 
+	port(D1, D2: in std_logic_vector(15 downto 0); En,clock,reset:in std_logic; Q:out std_logic_vector(15 downto 0));
+end component ff_16;
+
+component Addzeroes9 is 
+	port(input1: in std_logic_vector(8 downto 0); az: in std_logic; output: out std_logic_vector(15 downto 0));
+end component; 
+
+component alu2 is
+	port (ALU2_A, ALU2_B: in std_logic_vector(15 downto 0); ALU2_C: out std_logic_vector(15 downto 0));
+end component;
+
+component alu3 is
+port (ALU3_A, ALU3_B: in std_logic_vector(15 downto 0); carry, zero:out std_logic; ALU3_C: out std_logic_vector(15 downto 0));
+end component;
+
+component pipeline1 is 
+		port(En,clock,reset:in std_logic; D1: in std_logic_vector(31 downto 0); Q:out std_logic_vector(31 downto 0));
+end component pipeline1;
+
+component pipeline2 is 
+		port(En,clock,reset:in std_logic; D2: in std_logic_vector(47 downto 0); Q:out std_logic_vector(47 downto 0));
+end component pipeline2;
+	
+component pipeline3 is 
+		port(En,clock,reset:in std_logic; D3: in std_logic_vector(79 downto 0); Q:out std_logic_vector(79 downto 0));
+end component pipeline3;
+
+component pipeline4 is 
+		port(En,clock,reset:in std_logic; D4: in std_logic_vector(40 downto 0); Q:out std_logic_vector(40 downto 0));
+end component pipeline4;
+	
+component pipeline5 is 
+		port(En,clock,reset:in std_logic; D5: in std_logic_vector(25 downto 0); Q:out std_logic_vector(25 downto 0));
+end component pipeline5;
+	
+component psw is
+port(clk, reset,carry_en, zero_en: in std_logic; carry_wr, zero_wr: in std_logic; carry_rd, zero_rd: out std_logic);
+end component;
+
+component mux2_1 is
+port(A,B : in std_logic_vector (15 downto 0); S: in STD_LOGIC; Z: out std_logic_vector (15 downto 0));
+end component mux2_1;
+
+component mux4_1 is
+port(A,B,C,D : in std_logic_vector (15 downto 0); S: in std_logic_vector (1 downto 0); Z: out std_logic_vector (15 downto 0));
+end mux4_1;
+
+
+begin
+
+    
+end bhv;

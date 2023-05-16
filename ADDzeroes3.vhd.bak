@@ -1,0 +1,23 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity ADDzeroes3 is 
+	port(
+		input1: in std_logic_vector(3 downto 0); output: out std_logic_vector(5 downto 0));
+end ADDzeroes3;
+
+architecture bhv of ADDzeroes3 is
+
+begin
+process(se6, input1)
+begin
+
+		for i in 4 to 5 loop
+		   output(i)<='0';
+		end loop;
+		output(3 downto 0)<=input1;
+		else
+			output(5 downto 0)<=(others=>'0');
+	end if;
+end process;
+end bhv;

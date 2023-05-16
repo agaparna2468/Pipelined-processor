@@ -1,0 +1,20 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity priority_enco is 
+	port(inst: in std_logic_vector(7 downto 0); 
+        output: out std_logic_vector(2 downto 0));
+end entity;
+
+
+architecture bhv of priority_enco is
+
+begin
+
+		output(0)<= inst(1) or inst(3) or inst(5) or inst(7);
+		output(1)<= inst(2) or inst(3) or inst(6) or inst(7);
+		output(2)<= inst(7) or inst(6) or inst(5) or inst(4);
+	  
+
+ 
+end bhv;

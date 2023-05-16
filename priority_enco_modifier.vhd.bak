@@ -1,0 +1,25 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity priority_enco_modifier is 
+	port(A: in std_logic_vector(7 downto 0); 
+        output: out std_logic_vector(7 downto 0));
+end entity;
+
+
+architecture bhv of priority_enco is
+signal reply:std_logic_vector(7 downto 0);
+signal flag:='0';
+begin
+
+		reply<=A
+		for i in 0 to 7 loop
+				if(A(i)='1' and flag='0') then
+					reply(i)<='0';
+					flag='1';
+				end if;
+		end loop;
+	  
+
+ 
+end bhv;

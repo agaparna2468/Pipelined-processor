@@ -1,0 +1,32 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity Sevenshift is
+
+port (inp :in std_logic_vector(15 downto 0); SevenS: in std_logic;
+output: out std_logic_vector(15 downto 0));
+
+end entity;
+
+architecture bhv of Sevenshift is
+
+signal A: std_logic_vector(8 downto 0);
+signal B: std_logic_vector(6 downto 0);
+signal nolatch: std_logic;
+
+begin
+
+process(SevenS, inp, A, B)
+begin
+    if (SevenS= '1') then
+			A<= inp(8 downto 0);
+			B<= "0000000";
+			output<= A & B;
+	else
+				A<="000000000";
+				B<= "0000000";
+				 output<=inp;
+	end if;
+end process;
+end bhv;
+

@@ -1,0 +1,106 @@
+library std;
+use std.textio.all;
+
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity Testbench is
+end entity;
+architecture Behave of Testbench is
+
+  ----------------------------------------------------------------
+  --  edit the following lines to set the number of i/o's of your
+  --  DUT.
+  ----------------------------------------------------------------
+  constant number_of_inputs  : integer := 2;   --# fill input bits to your design.
+  constant number_of_outputs : integer := 56;   --# fill output bits from your design.
+  ----------------------------------------------------------------
+  ----------------------------------------------------------------
+
+  -- Note that you will have to wrap your design into the DUT
+  -- as indicated in class.
+  component DUT is
+   port(input_vector: in std_logic_vector(number_of_inputs-1 downto 0);    
+       	output_vector: out std_logic_vector(number_of_outputs-1 downto 0));
+  end component;
+
+
+  signal input_vector  : std_logic_vector(number_of_inputs-1 downto 0);
+  signal output_vector : std_logic_vector(number_of_outputs-1 downto 0);
+
+  -- create a constrained string
+  function to_string(x: string) return string is
+      variable ret_val: string(1 to x'length);
+      alias lx : string (1 to x'length) is x;
+  begin  
+      ret_val := lx;
+      return(ret_val);
+  end to_string;
+
+  -- bit-vector to std-logic-vector and vice-versa
+  function to_std_logic_vector(x: bit_vector) return std_logic_vector is
+     alias lx: bit_vector(1 to x'length) is x;
+     variable ret_val: std_logic_vector(1 to x'length);
+  begin
+     for I in 1 to x'length loop
+        if(lx(I) = '1') then
+          ret_val(I) := '1';
+        else
+          ret_val(I) := '0';
+        end if;
+     end loop; 
+     return ret_val;
+  end to_std_logic_vector;
+
+  function to_bit_vector(x: std_logic_vector) return bit_vector is
+     alias lx: std_logic_vector(1 to x'length) is x;
+     variable ret_val: bit_vector(1 to x'length);
+  begin
+     for I in 1 to x'length loop
+        if(lx(I) = '1') then
+          ret_val(I) := '1';
+        else
+          ret_val(I) := '0';
+        end if;
+     end loop; 
+     return ret_val;
+  end to_bit_vector;
+
+begin
+  process 
+    variable err_flag : boolean := false;
+    File INFILE: text open read_mode is "TRACEFILE.txt";
+    FILE OUTFILE: text  open write_mode is "outputs.txt";
+
+    -- bit-vectors are read from the file.
+    variable input_vector_var: bit_vector (number_of_inputs-1 downto 0);
+    variable output_vector_var: bit_vector (number_of_outputs-1 downto 0);
+    variable output_mask_var: bit_vector (number_of_outputs-1 downto 0);
+
+    -- for comparison of output with expected-output
+    variable output_comp_var: std_logic_vector (number_of_outputs-1 downto 0);
+    constant ZZZZ : std_logic_vector(number_of_outputs-1 downto 0) := (others => '0');
+
+    -- for read/write.
+    variable INPUT_LINE: Line;
+    variable OUTPUT_LINE: Line;
+    variable LINE_COUNT: integer := 0;
+	 variable clocksig: std_logic := '1';
+	 variable resetsig: std_logic := '0';
+  begin
+	 input_vector(1) <= clocksig;
+	 input_vector(0) <= resetsig;
+	 wait for 1000 ns;
+	 for i in 0 to 18 loop
+	 clocksig := not(clocksig);
+	 input_vector(1) <= clocksig;
+	 wait for 1000 ns;
+	 end loop;
+	 
+    wait;
+  end process;
+
+  dut_instance: DUT 
+     	port map(input_vector => input_vector, output_vector => output_vector);
+
+end Behave;

@@ -1,0 +1,23 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity ff_3 is 
+		port(D1: in std_logic_vector(2 downto 0); En,clock,reset:in std_logic; Q: out std_logic_vector(2 downto 0));
+	end entity ff_3;
+
+architecture behav of ff_3 is
+	begin
+	
+		dff_reset_proc: process (clock,reset,En, D1)
+			begin
+			if(En='1') then
+				if(reset='1')then 
+				Q <= "100"; 
+				elsif (clock'event and (clock='1')) then
+				Q <= D1; 
+				end if ;
+			else
+				Q <= "100"; 
+			end if;
+	end process;
+end behav;
