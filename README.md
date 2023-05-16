@@ -11,6 +11,7 @@ This architecture uses condition code register which has two flags Carry flag ( 
 
 ## Instructions:
 ![Instruction format](https://github.com/agaparna2468/Pipelined-processor/assets/98680990/44018b78-1dcf-465e-b1f4-ea9f3ed92fcf)
+
 [EE309-Project-pipelined-RISC-IITB.pdf](https://github.com/agaparna2468/Pipelined-processor/files/11486318/EE309-Project-pipelined-RISC-IITB.pdf)
 
 ## Datapath
